@@ -1,0 +1,78 @@
+import pandas as pd
+
+import seaborn as sns
+
+import matplotlib.pyplot as plt
+
+titanic_df = pd.read_csv('/content/titanic.csv')
+titanic_df.head(5) # Display the first few rows to get an overview of the data structure.
+
+##Hard to decide on strategies for missing values
+
+# Visualize missing values with heatmap
+sns.heatmap(titanic_df.isnull(), cbar=False, cmap='viridis')
+plt.show()
+
+##Have to learn more about statistic
+
+# Basic statistics using describe()
+describe_stats = titanic_df.describe()
+print("Basic statistics using describe():")
+print(describe_stats)
+
+# Individual statistics
+mean_values = titanic_df.mean(numeric_only=True)
+median_values = titanic_df.median(numeric_only=True)
+min_values = titanic_df.min(numeric_only=True)
+max_values = titanic_df.max(numeric_only=True)
+
+print("\nMean values:")
+print(mean_values)
+
+print("\nMedian values:")
+print(median_values)
+
+print("\nMinimum values:")
+print(min_values)
+
+print("\nMaximum values:")
+print(max_values)
+
+#Analyze categorical variables 
+
+survived_counts = titanic_df['Survived'].value_counts() # how many passengers were saved and how many died
+
+survived_counts
+
+sex_counts = titanic_df['Sex'].value_counts() # how many men and women
+
+sex_counts
+
+pclass_counts = titanic_df['Pclass'].value_counts() #number of passengers in each class of tickets
+pclass_counts
+
+#To find out how many passengers were saved in each class 
+
+saved_by_class = titanic_df.groupby('Pclass')['Survived'].sum()
+
+saved_by_class
+
+##Vizualization
+
+fare = titanic_df['Fare'].dropna()
+
+
+plt.figure(figsize=(10, 6))
+plt.hist(fare, bins=30, color='orange', edgecolor='black')
+
+# title and labels
+plt.title('Ticket fare on the Titanic', fontsize=16)
+plt.xlabel('Fare', fontsize=14)
+plt.ylabel('Number of Passengers', fontsize=14)
+
+# grid 
+plt.grid(True)
+
+plt.show()
+
+
